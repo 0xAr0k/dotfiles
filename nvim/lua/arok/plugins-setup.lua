@@ -34,10 +34,6 @@ return packer.startup(function(use)
 
 	use("nvim-lua/plenary.nvim") -- lua functions that many plugins use
 
-	use("savq/melange-nvim") -- melange colorscheme
-
-	use("hoprr/calvera-dark.nvim") -- calvera colorscheme
-
 	use("rebelot/kanagawa.nvim") -- kanagawa colorscheme
 
 	use("xiyaowong/nvim-transparent") -- transparent background
@@ -49,17 +45,6 @@ return packer.startup(function(use)
 	-- essential plugins
 	use("tpope/vim-surround") -- add, delete, change surroundings (it's awesome)
 	use("inkarkat/vim-ReplaceWithRegister") -- replace with register contents using motion (gr + motion)
-
-	-- other plugins
-	use({
-		"crnvl96/lazydocker.nvim",
-		config = function()
-			require("lazydocker").setup()
-		end,
-		requires = {
-			"MunifTanjim/nui.nvim",
-		},
-	})
 
 	-- devcontainers
 	use("https://codeberg.org/esensar/nvim-dev-container") -- devcontainers

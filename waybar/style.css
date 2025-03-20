@@ -1,0 +1,78 @@
+/* Minimalist Waybar CSS */
+* {
+  border: none;
+  font-family: "MesloLGL Nerd Font", monospace;
+  font-size: 12px;
+  background: transparent;
+  min-height: 18px;
+}
+
+window#waybar {
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 100px;
+  padding: 5px 10px;
+}
+
+/* Workspaces */
+
+#workspaces {
+  background: #0a0c10;
+  padding: 0; /* Remove extra padding */
+  margin: 5px 5px;
+  border-radius: 100px;
+}
+
+#workspaces button {
+  color: #424a58;
+  background: #424a58;
+  border-radius: 100px;
+  padding: 0px;
+  margin: 3px;
+  min-width: 8px;
+  min-height: 8px;
+  transition: all 0.2s ease-in-out;
+}
+
+#workspaces button.active {
+  color: #424a58;
+  background: #424a58;
+  border-radius: 12px;
+  min-width: 40px;
+  min-height: 8px;
+}
+
+/* Modules */
+#cpu,
+#memory,
+#network,
+#temperature,
+#battery,
+#clock,
+#tray,
+#pulseaudio,
+#custom-power,
+#custom-media {
+  padding: 1px 8px 1px 8px;
+  margin: 5px 5px;
+  background: #424a58;
+  border-radius: 100px;
+  color: black;
+}
+
+#battery.warning {
+  color: #ffcc00;
+}
+
+#battery.critical {
+  color: #ff4444;
+}
+
+/* Remove unnecessary borders and excessive padding */
+#custom-media {
+  background: transparent;
+}
+
+/* Reduce bar height */
+/* window#waybar { */
+/*   height: 28px; */
+/* } */
