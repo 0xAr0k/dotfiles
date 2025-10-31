@@ -34,7 +34,7 @@ local on_attach = function(client, bufnr)
 	keymap.set("n", "<leader>o", "<cmd>LSoutlineToggle<CR>", opts) -- see outline on right hand side
 
 	--typescript specific keymaps (e.g rename file and update imports)
-	if client.name == "tserver" then
+	if client.name == "tsserver" then
 		keymap.set("n", "<leader>rf", ":TypescriptRenameFile<CR>") -- rename file and update imports
 		keymap.set("n", "<leader>oi", ":TypescriptOrganizeImports<CR>") -- organize imports (not in youtube nvim video)
 		keymap.set("n", "<leader>ru", ":TypescriptRemoveUnused<CR>") -- remove unused variables (not in youtube nvim video)
@@ -99,6 +99,7 @@ lspconfig["solidity_ls_nomicfoundation"].setup({
 	capabilities = capabilities,
 	on_attach = on_attach,
 })
+
 -- configure rust language server
 lspconfig["rust_analyzer"].setup({
 	capabilities = capabilities,
@@ -122,6 +123,37 @@ lspconfig["pyright"].setup({
 				autoSearchPaths = true,
 				diagnosticMode = "workspace",
 				useLibraryCodeForTypes = true,
+			},
+		},
+	},
+})
+
+lspconfig["clangd"].setup({
+	capabilities = capabilities,
+	on_attach = on_attach,
+})
+
+lspconfig["clang-format"].setup({
+	capabilities = capabilities,
+	on_attach = on_attach,
+})
+
+lspconfig["efm"].setup({
+	capabilities = capabilities,
+	on_attach = on_attach,
+	settings = {
+		languages = {
+			solidity = {
+				{ -- solidity could have more than one linter, hence this nesting.
+					lintStdin = true, -- pipe buffer content to solhint
+					lintIgnoreExitCode = true, -- because exit code 1 is common
+					lintCommand = "solhint stdin", -- default format stylish
+					lintFormats = {
+						" %#%l:%c %#%tarning %#%m",
+						" %#%l:%c %#%trror %#%m", -- solhint only has error and warn
+					},
+					lintSource = "solhint",
+				},
 			},
 		},
 	},

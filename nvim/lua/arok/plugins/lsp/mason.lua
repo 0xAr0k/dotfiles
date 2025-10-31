@@ -24,7 +24,7 @@ mason.setup()
 mason_lspconfig.setup({
 	-- list of servers for mason to install
 	ensure_installed = {
-		"tsserver",
+		"ts_ls",
 		"html",
 		"cssls",
 		"tailwindcss",
@@ -35,38 +35,21 @@ mason_lspconfig.setup({
 		"rust_analyzer",
 		"efm",
 		"pyright",
+		"clangd",
 	},
 	-- auto-install configured servers (with lspconfig)
-	-- automatic_installation = true, -- not the same as ensure_installed
-})
-
-require("lspconfig").efm.setup({
-	filetypes = { "solidity" },
-	settings = {
-		languages = {
-			solidity = {
-				{ -- solidity could have more than one linter, hence this nesting.
-					lintStdin = true, -- pipe buffer content to solhint
-					lintIgnoreExitCode = true, -- because exit code 1 is common
-					lintCommand = "solhint stdin", -- default format stylish
-					lintFormats = {
-						" %#%l:%c %#%tarning %#%m",
-						" %#%l:%c %#%trror %#%m", -- solhint only has error and warn
-					},
-					lintSource = "solhint",
-				},
-			},
-		},
-	},
+	automatic_installation = true, -- not the same as ensure_installed
 })
 
 mason_null_ls.setup({
 	-- list of formatters & linters for mason to install
 	ensure_installed = {
+		"clang-format", -- c/c++ formatter
 		"prettier", -- ts/js formatter
 		"stylua", -- lua formatter
 		"eslint_d", -- ts/js linter
 		"solhint", -- solidity linter
+		"rustfmt", -- rust formatter
 	},
 	-- auto-install configured formatters & linters (with null-ls)
 	automatic_installation = true,
