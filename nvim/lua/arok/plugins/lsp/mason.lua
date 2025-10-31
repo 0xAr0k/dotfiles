@@ -37,7 +37,7 @@ mason_lspconfig.setup({
 		"pyright",
 	},
 	-- auto-install configured servers (with lspconfig)
-	automatic_installation = true, -- not the same as ensure_installed
+	-- automatic_installation = true, -- not the same as ensure_installed
 })
 
 require("lspconfig").efm.setup({
