@@ -41,25 +41,25 @@ mason_lspconfig.setup({
 	automatic_installation = true, -- not the same as ensure_installed
 })
 
-mason_null_ls.setup({
-	-- list of formatters & linters for mason to install
-	ensure_installed = {
-		"clang-format", -- c/c++ formatter
-		"prettier", -- ts/js formatter
-		"stylua", -- lua formatter
-		"eslint_d", -- ts/js linter
-		"solhint", -- solidity linter
-		"rustfmt", -- rust formatter
-	},
-	-- auto-install configured formatters & linters (with null-ls)
-	automatic_installation = true,
-})
+-- mason_null_ls.setup({
+-- 	-- list of formatters & linters for mason to install
+-- 	ensure_installed = {
+-- 		"clang-format", -- c/c++ formatter
+-- 		"prettier", -- ts/js formatter
+-- 		"stylua", -- lua formatter
+-- 		"eslint_d", -- ts/js linter
+-- 		"solhint", -- solidity linter
+-- 		"rustfmt", -- rust formatter
+-- 	},
+-- 	-- auto-install configured formatters & linters (with null-ls)
+-- 	automatic_installation = true,
+-- })
 
-for _, pkg_name in ipairs({ "solhint" }) do -- add others here
-	local ok, pkg = pcall(registry.get_package, pkg_name)
-	if ok then
-		if not pkg:is_installed() then
-			pkg:install()
-		end
-	end
-end
+-- for _, pkg_name in ipairs({ "solhint" }) do -- add others here
+-- 	local ok, pkg = pcall(registry.get_package, pkg_name)
+-- 	if ok then
+-- 		if not pkg:is_installed() then
+-- 			pkg:install()
+-- 		end
+-- 	end
+-- end

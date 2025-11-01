@@ -75,14 +75,21 @@ vim.lsp.config.lua_ls = {
 	on_attach = on_attach,
 	settings = {
 		Lua = {
+			runtime = {
+				version = "LuaJIT", -- Add this
+			},
 			diagnostics = {
 				globals = { "vim" },
 			},
 			workspace = {
 				library = {
-					[vim.fn.expand("$VIMRUNTIME/lua")] = true,
-					[vim.fn.stdpath("config") .. "/lua"] = true,
+					vim.env.VIMRUNTIME, -- Simplified this
+					"${3rd}/luv/library",
 				},
+				checkThirdParty = false, -- Add this to avoid prompts
+			},
+			telemetry = {
+				enable = false, -- Disable telemetry
 			},
 		},
 	},
@@ -122,9 +129,6 @@ vim.lsp.config.clangd = {
 	capabilities = capabilities,
 	on_attach = on_attach,
 }
-
--- Remove clang-format (it's not an LSP server, it's a formatter)
--- Use conform.nvim or null-ls for formatting instead
 
 vim.lsp.config.efm = {
 	capabilities = capabilities,

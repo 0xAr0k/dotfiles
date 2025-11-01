@@ -109,7 +109,7 @@ return packer.startup(function(use)
 	use("nvimtools/none-ls.nvim") -- configure formatters & linters
 	use("nvimtools/none-ls-extras.nvim")
 	use("jayp0521/mason-null-ls.nvim") -- bridges gap b/w mason & null-ls
-
+	use("stevearc/conform.nvim") -- new formatter
 	-- treesitter configuration
 	use({
 		"nvim-treesitter/nvim-treesitter",

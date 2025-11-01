@@ -109,6 +109,11 @@ _G.packer_plugins = {
     path = "/home/arok/.local/share/nvim/site/pack/packer/start/cmp_luasnip",
     url = "https://github.com/saadparwaiz1/cmp_luasnip"
   },
+  ["conform.nvim"] = {
+    loaded = true,
+    path = "/home/arok/.local/share/nvim/site/pack/packer/start/conform.nvim",
+    url = "https://github.com/stevearc/conform.nvim"
+  },
   ["friendly-snippets"] = {
     loaded = true,
     path = "/home/arok/.local/share/nvim/site/pack/packer/start/friendly-snippets",
