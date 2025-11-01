@@ -1,5 +1,6 @@
-local lspconfig_status, lspconfig = pcall(require, "lspconfig")
-if not lspconfig_status then
+-- Check if new API is available (Neovim 0.11+)
+if not vim.lsp.config then
+	vim.notify("Neovim 0.11+ required for new LSP config API", vim.log.levels.WARN)
 	return
 end
 
@@ -8,83 +9,76 @@ if not cmp_nvim_lsp_status then
 	return
 end
 
-local typescript_setup, typescript = pcall(require, "typescript")
-if not typescript_setup then
-	return
-end
+-- Note: typescript.nvim plugin may need updating for new API
+-- For now, we'll configure ts_ls directly
+-- local typescript_setup, typescript = pcall(require, "typescript")
 
 local keymap = vim.keymap
 
 local on_attach = function(client, bufnr)
-	-- keybind options
 	local opts = { noremap = true, silent = true, buffer = bufnr }
 
-	-- set keybinds
-	keymap.set("n", "gf", "<cmd>Lspsaga lsp_finder<CR>", opts) -- show definition, references
-	keymap.set("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts) -- got to declaration
-	keymap.set("n", "gd", "<cmd>Lspsaga peek_definition<CR>", opts) -- see definition and make edits in window
-	keymap.set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts) -- go to implementation
-	keymap.set("n", "<leader>ca", "<cmd>Lspsaga code_action<CR>", opts) -- see available code actions
-	keymap.set("n", "<leader>rn", "<cmd>Lspsaga rename<CR>", opts) -- smart rename
-	keymap.set("n", "<leader>D", "<cmd>Lspsaga show_line_diagnostics<CR>", opts) -- show  diagnostics for line
-	keymap.set("n", "<leader>d", "<cmd>Lspsaga show_cursor_diagnostics<CR>", opts) -- show diagnostics for cursor
-	keymap.set("n", "[d", "<cmd>Lspsaga diagnostic_jump_prev<CR>", opts) -- jump to previous diagnostic in buffer
-	keymap.set("n", "]d", "<cmd>Lspsaga diagnostic_jump_next<CR>", opts) -- jump to next diagnostic in buffer
-	keymap.set("n", "K", "<cmd>Lspsaga hover_doc<CR>", opts) -- show documentation for what is under cursor
-	keymap.set("n", "<leader>o", "<cmd>LSoutlineToggle<CR>", opts) -- see outline on right hand side
+	keymap.set("n", "gf", "<cmd>Lspsaga lsp_finder<CR>", opts)
+	keymap.set("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
+	keymap.set("n", "gd", "<cmd>Lspsaga peek_definition<CR>", opts)
+	keymap.set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
+	keymap.set("n", "<leader>ca", "<cmd>Lspsaga code_action<CR>", opts)
+	keymap.set("n", "<leader>rn", "<cmd>Lspsaga rename<CR>", opts)
+	keymap.set("n", "<leader>D", "<cmd>Lspsaga show_line_diagnostics<CR>", opts)
+	keymap.set("n", "<leader>d", "<cmd>Lspsaga show_cursor_diagnostics<CR>", opts)
+	keymap.set("n", "[d", "<cmd>Lspsaga diagnostic_jump_prev<CR>", opts)
+	keymap.set("n", "]d", "<cmd>Lspsaga diagnostic_jump_next<CR>", opts)
+	keymap.set("n", "K", "<cmd>Lspsaga hover_doc<CR>", opts)
+	keymap.set("n", "<leader>o", "<cmd>LSoutlineToggle<CR>", opts)
 
-	--typescript specific keymaps (e.g rename file and update imports)
-	if client.name == "tsserver" then
-		keymap.set("n", "<leader>rf", ":TypescriptRenameFile<CR>") -- rename file and update imports
-		keymap.set("n", "<leader>oi", ":TypescriptOrganizeImports<CR>") -- organize imports (not in youtube nvim video)
-		keymap.set("n", "<leader>ru", ":TypescriptRemoveUnused<CR>") -- remove unused variables (not in youtube nvim video)
-	end
+	-- TypeScript specific keymaps
+	-- if client.name == "ts_ls" then
+	-- 	if typescript_setup then
+	-- 		keymap.set("n", "<leader>rf", ":TypescriptRenameFile<CR>")
+	-- 		keymap.set("n", "<leader>oi", ":TypescriptOrganizeImports<CR>")
+	-- 		keymap.set("n", "<leader>ru", ":TypescriptRemoveUnused<CR>")
+	-- 	end
+	-- end
 end
 
--- used to enable autocompletion
-local capabilities = require("cmp_nvim_lsp").default_capabilities()
+local capabilities = cmp_nvim_lsp.default_capabilities()
 
-lspconfig["html"].setup({
+-- Configure all LSP servers using new API
+vim.lsp.config.html = {
 	capabilities = capabilities,
 	on_attach = on_attach,
-})
+}
 
-typescript.setup({
-	server = {
-		capabilities = capabilities,
-		on_attach = on_attach,
-	},
-})
-
-lspconfig["cssls"].setup({
+vim.lsp.config.ts_ls = {
 	capabilities = capabilities,
 	on_attach = on_attach,
-})
+}
 
-lspconfig["tailwindcss"].setup({
+vim.lsp.config.cssls = {
 	capabilities = capabilities,
-	on_attach,
-})
+	on_attach = on_attach,
+}
 
--- configure emmet language server
-lspconfig["emmet_ls"].setup({
+vim.lsp.config.tailwindcss = {
+	capabilities = capabilities,
+	on_attach = on_attach,
+}
+
+vim.lsp.config.emmet_ls = {
 	capabilities = capabilities,
 	on_attach = on_attach,
 	filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte", "javascript" },
-})
+}
 
--- configure lua server (with special settings)
-lspconfig["lua_ls"].setup({
+vim.lsp.config.lua_ls = {
 	capabilities = capabilities,
 	on_attach = on_attach,
-	settings = { -- custom settings for lua
+	settings = {
 		Lua = {
-			-- make the language server recognize "vim" global
 			diagnostics = {
 				globals = { "vim" },
 			},
 			workspace = {
-				-- make language server aware of runtime files
 				library = {
 					[vim.fn.expand("$VIMRUNTIME/lua")] = true,
 					[vim.fn.stdpath("config") .. "/lua"] = true,
@@ -92,28 +86,24 @@ lspconfig["lua_ls"].setup({
 			},
 		},
 	},
-})
+}
 
--- configure solidity language server
-lspconfig["solidity_ls_nomicfoundation"].setup({
+vim.lsp.config.solidity_ls_nomicfoundation = {
 	capabilities = capabilities,
 	on_attach = on_attach,
-})
+}
 
--- configure rust language server
-lspconfig["rust_analyzer"].setup({
+vim.lsp.config.rust_analyzer = {
 	capabilities = capabilities,
 	on_attach = on_attach,
-})
+}
 
--- configure svelte language server
-lspconfig["svelte"].setup({
+vim.lsp.config.svelte = {
 	capabilities = capabilities,
 	on_attach = on_attach,
-})
+}
 
--- configure pyright language server
-lspconfig["pyright"].setup({
+vim.lsp.config.pyright = {
 	capabilities = capabilities,
 	on_attach = on_attach,
 	settings = {
@@ -126,35 +116,57 @@ lspconfig["pyright"].setup({
 			},
 		},
 	},
-})
+}
 
-lspconfig["clangd"].setup({
+vim.lsp.config.clangd = {
 	capabilities = capabilities,
 	on_attach = on_attach,
-})
+}
 
-lspconfig["clang-format"].setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
-})
+-- Remove clang-format (it's not an LSP server, it's a formatter)
+-- Use conform.nvim or null-ls for formatting instead
 
-lspconfig["efm"].setup({
+vim.lsp.config.efm = {
 	capabilities = capabilities,
 	on_attach = on_attach,
 	settings = {
 		languages = {
 			solidity = {
-				{ -- solidity could have more than one linter, hence this nesting.
-					lintStdin = true, -- pipe buffer content to solhint
-					lintIgnoreExitCode = true, -- because exit code 1 is common
-					lintCommand = "solhint stdin", -- default format stylish
+				{
+					lintStdin = true,
+					lintIgnoreExitCode = true,
+					lintCommand = "solhint stdin",
 					lintFormats = {
 						" %#%l:%c %#%tarning %#%m",
-						" %#%l:%c %#%trror %#%m", -- solhint only has error and warn
+						" %#%l:%c %#%trror %#%m",
 					},
 					lintSource = "solhint",
 				},
 			},
 		},
 	},
-})
+}
+
+-- Enable LSP servers for appropriate filetypes
+local function enable_lsp_for_filetype(filetypes, servers)
+	vim.api.nvim_create_autocmd("FileType", {
+		pattern = filetypes,
+		callback = function()
+			for _, server in ipairs(servers) do
+				vim.lsp.enable(server)
+			end
+		end,
+	})
+end
+
+-- Enable servers based on filetypes
+enable_lsp_for_filetype({ "html" }, { "html", "emmet_ls" })
+enable_lsp_for_filetype({ "css", "scss", "sass", "less" }, { "cssls", "emmet_ls" })
+enable_lsp_for_filetype({ "javascript", "javascriptreact", "typescript", "typescriptreact" }, { "ts_ls", "emmet_ls" })
+enable_lsp_for_filetype({ "lua" }, { "lua_ls" })
+enable_lsp_for_filetype({ "solidity" }, { "solidity_ls_nomicfoundation", "efm" })
+enable_lsp_for_filetype({ "rust" }, { "rust_analyzer" })
+enable_lsp_for_filetype({ "svelte" }, { "svelte", "emmet_ls" })
+enable_lsp_for_filetype({ "python" }, { "pyright" })
+enable_lsp_for_filetype({ "c", "cpp" }, { "clangd" })
+enable_lsp_for_filetype({ "tailwindcss" }, { "tailwindcss" })
