@@ -103,6 +103,43 @@ vim.lsp.config.solidity_ls_nomicfoundation = {
 vim.lsp.config.rust_analyzer = {
 	capabilities = capabilities,
 	on_attach = on_attach,
+	settings = {
+		["rust-analyzer"] = {
+			check = {
+				command = "clippy", -- Use clippy for linting
+			},
+			cargo = {
+				allFeatures = true,
+				loadOutDirsFromCheck = true,
+			},
+			procMacro = {
+				enable = true,
+			},
+		},
+	},
+}
+
+vim.lsp.config.efm = {
+	capabilities = vim.tbl_deep_extend("force", capabilities, {
+		offsetEncoding = { "utf-16" }, -- Fix encoding warning
+	}),
+	on_attach = on_attach,
+	settings = {
+		languages = {
+			solidity = {
+				{
+					lintStdin = true,
+					lintIgnoreExitCode = true,
+					lintCommand = "solhint stdin",
+					lintFormats = {
+						" %#%l:%c %#%tarning %#%m",
+						" %#%l:%c %#%trror %#%m",
+					},
+					lintSource = "solhint",
+				},
+			},
+		},
+	},
 }
 
 vim.lsp.config.svelte = {
@@ -128,27 +165,6 @@ vim.lsp.config.pyright = {
 vim.lsp.config.clangd = {
 	capabilities = capabilities,
 	on_attach = on_attach,
-}
-
-vim.lsp.config.efm = {
-	capabilities = capabilities,
-	on_attach = on_attach,
-	settings = {
-		languages = {
-			solidity = {
-				{
-					lintStdin = true,
-					lintIgnoreExitCode = true,
-					lintCommand = "solhint stdin",
-					lintFormats = {
-						" %#%l:%c %#%tarning %#%m",
-						" %#%l:%c %#%trror %#%m",
-					},
-					lintSource = "solhint",
-				},
-			},
-		},
-	},
 }
 
 -- Enable LSP servers for appropriate filetypes
