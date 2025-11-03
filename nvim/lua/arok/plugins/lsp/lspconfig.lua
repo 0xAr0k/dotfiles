@@ -9,10 +9,6 @@ if not cmp_nvim_lsp_status then
 	return
 end
 
--- Note: typescript.nvim plugin may need updating for new API
--- For now, we'll configure ts_ls directly
--- local typescript_setup, typescript = pcall(require, "typescript")
-
 local keymap = vim.keymap
 
 local on_attach = function(client, bufnr)
@@ -30,15 +26,6 @@ local on_attach = function(client, bufnr)
 	keymap.set("n", "]d", "<cmd>Lspsaga diagnostic_jump_next<CR>", opts)
 	keymap.set("n", "K", "<cmd>Lspsaga hover_doc<CR>", opts)
 	keymap.set("n", "<leader>o", "<cmd>LSoutlineToggle<CR>", opts)
-
-	-- TypeScript specific keymaps
-	-- if client.name == "ts_ls" then
-	-- 	if typescript_setup then
-	-- 		keymap.set("n", "<leader>rf", ":TypescriptRenameFile<CR>")
-	-- 		keymap.set("n", "<leader>oi", ":TypescriptOrganizeImports<CR>")
-	-- 		keymap.set("n", "<leader>ru", ":TypescriptRemoveUnused<CR>")
-	-- 	end
-	-- end
 end
 
 local capabilities = cmp_nvim_lsp.default_capabilities()
@@ -120,6 +107,10 @@ vim.lsp.config.rust_analyzer = {
 }
 
 vim.lsp.config.efm = {
+	cmd = { "efm-langserver" },
+	cmd_env = {
+		PATH = vim.fn.stdpath("data") .. "/mason/bin:" .. vim.env.PATH,
+	},
 	capabilities = vim.tbl_deep_extend("force", capabilities, {
 		offsetEncoding = { "utf-16" }, -- Fix encoding warning
 	}),

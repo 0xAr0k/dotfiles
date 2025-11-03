@@ -42,7 +42,7 @@ conform.setup({
 	-- Format on save
 	format_on_save = {
 		timeout_ms = 500,
-		lsp_fallback = true, -- Use LSP if no formatter configured
+		lsp_fallback = false,
 	},
 
 	-- Customize formatters (optional)
