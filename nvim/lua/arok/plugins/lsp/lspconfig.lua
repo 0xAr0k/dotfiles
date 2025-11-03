@@ -14,6 +14,11 @@ local keymap = vim.keymap
 local on_attach = function(client, bufnr)
 	local opts = { noremap = true, silent = true, buffer = bufnr }
 
+	if client.name == "ts_ls" then
+		client.server_capabilities.documentFormattingProvider = false
+		client.server_capabilities.documentRangeFormattingProvider = false
+	end
+
 	keymap.set("n", "gf", "<cmd>Lspsaga lsp_finder<CR>", opts)
 	keymap.set("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
 	keymap.set("n", "gd", "<cmd>Lspsaga peek_definition<CR>", opts)
