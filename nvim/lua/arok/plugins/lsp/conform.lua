@@ -45,13 +45,7 @@ conform.setup({
 		lsp_fallback = false,
 	},
 
-	-- Customize formatters (optional)
 	formatters = {
-		rustfmt = {
-			prepend_args = {
-				"--edition=2021",
-			},
-		},
 		clang_format = {
 			prepend_args = { "-style=file" }, -- Use .clang-format file
 		},
