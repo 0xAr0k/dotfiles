@@ -98,12 +98,13 @@ vim.lsp.config.rust_analyzer = {
 	settings = {
 		["rust-analyzer"] = {
 			check = {
-				command = "clippy", -- Use clippy for linting
+				command = "clippy",
 			},
 			cargo = {
 				allFeatures = true,
-				loadOutDirsFromCheck = true,
-				runBuildScripts = true,
+				extraEnv = {
+					["__CARGO_TEST_CHANNEL_OVERRIDE_DO_NOT_USE_THIS"] = "stable",
+				},
 			},
 			procMacro = {
 				enable = true,
