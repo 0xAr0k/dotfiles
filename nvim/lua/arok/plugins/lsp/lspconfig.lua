@@ -103,6 +103,7 @@ vim.lsp.config.rust_analyzer = {
 			cargo = {
 				allFeatures = true,
 				loadOutDirsFromCheck = true,
+				runBuildScripts = true,
 			},
 			procMacro = {
 				enable = true,
@@ -131,6 +132,7 @@ vim.lsp.config.efm = {
 						" %#%l:%c %#%tarning %#%m",
 						" %#%l:%c %#%trror %#%m",
 					},
+					-- this does not work very well somehow
 					lintSource = "solhint",
 				},
 			},

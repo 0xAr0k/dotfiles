@@ -49,8 +49,8 @@ local function save_profiles(threshold)
 end
 
 time([[Luarocks path setup]], true)
-local package_path_str = "/home/arok/.cache/nvim/packer_hererocks/2.1.1761727121/share/lua/5.1/?.lua;/home/arok/.cache/nvim/packer_hererocks/2.1.1761727121/share/lua/5.1/?/init.lua;/home/arok/.cache/nvim/packer_hererocks/2.1.1761727121/lib/luarocks/rocks-5.1/?.lua;/home/arok/.cache/nvim/packer_hererocks/2.1.1761727121/lib/luarocks/rocks-5.1/?/init.lua"
-local install_cpath_pattern = "/home/arok/.cache/nvim/packer_hererocks/2.1.1761727121/lib/lua/5.1/?.so"
+local package_path_str = "/home/arok/.cache/nvim/packer_hererocks/2.1.1765007043/share/lua/5.1/?.lua;/home/arok/.cache/nvim/packer_hererocks/2.1.1765007043/share/lua/5.1/?/init.lua;/home/arok/.cache/nvim/packer_hererocks/2.1.1765007043/lib/luarocks/rocks-5.1/?.lua;/home/arok/.cache/nvim/packer_hererocks/2.1.1765007043/lib/luarocks/rocks-5.1/?/init.lua"
+local install_cpath_pattern = "/home/arok/.cache/nvim/packer_hererocks/2.1.1765007043/lib/lua/5.1/?.so"
 if not string.find(package.path, package_path_str, 1, true) then
   package.path = package.path .. ';' .. package_path_str
 end
@@ -226,6 +226,12 @@ _G.packer_plugins = {
     path = "/home/arok/.local/share/nvim/site/pack/packer/start/nvim-web-devicons",
     url = "https://github.com/nvim-tree/nvim-web-devicons"
   },
+  ["openrouter.nvim"] = {
+    config = { "\27LJ\2\n‘\1\0\0\3\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\1K\0\1\0\1\0\3\18system_prompt You are a concise asistant.\fapi_keyNsk-or-v1-f8051e6c5545a9b72893a9001007bbc005ebf77a5f3cdf25e2e58c01ef85a87e\nmodel\23openai/gpt-4o-mini\nsetup\15openrouter\frequire\0" },
+    loaded = true,
+    path = "/home/arok/.local/share/nvim/site/pack/packer/start/openrouter.nvim",
+    url = "https://github.com/0xInuarashi/openrouter.nvim"
+  },
   ["packer.nvim"] = {
     loaded = true,
     path = "/home/arok/.local/share/nvim/site/pack/packer/start/packer.nvim",
@@ -284,6 +290,10 @@ time([[Defining packer_plugins]], false)
 time([[Config for supermaven-nvim]], true)
 try_loadstring("\27LJ\2\nA\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\20supermaven-nvim\frequire\0", "config", "supermaven-nvim")
 time([[Config for supermaven-nvim]], false)
+-- Config for: openrouter.nvim
+time([[Config for openrouter.nvim]], true)
+try_loadstring("\27LJ\2\n‘\1\0\0\3\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\1K\0\1\0\1\0\3\18system_prompt You are a concise asistant.\fapi_keyNsk-or-v1-f8051e6c5545a9b72893a9001007bbc005ebf77a5f3cdf25e2e58c01ef85a87e\nmodel\23openai/gpt-4o-mini\nsetup\15openrouter\frequire\0", "config", "openrouter.nvim")
+time([[Config for openrouter.nvim]], false)
 -- Load plugins in order defined by `after`
 time([[Sequenced loading]], true)
 vim.cmd [[ packadd nvim-treesitter ]]

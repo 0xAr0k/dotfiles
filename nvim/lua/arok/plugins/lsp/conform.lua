@@ -36,7 +36,7 @@ conform.setup({
 		python = { "black" }, -- or "isort", "black"
 
 		-- Solidity
-		solidity = { "forge_fmt" }, -- if you use Foundry
+		solidity = { "forgefmt" },
 	},
 
 	-- Format on save
